@@ -6,7 +6,8 @@
       "PowerShell(Get-ChildItem \"C:\\\\Users\\\\jlimad\\\\Documents\\\\Dev\\\\nest-todo-jwt\" | Where-Object { $_.Name -ne 'node_modules' } | ForEach-Object { $_.Name })",
       "Bash(npm run *)",
       "Bash(npx jest *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(npx prisma *)"
     ]
   }
 }
