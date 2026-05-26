@@ -16,11 +16,27 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "john@email.com",
+  "email": "ana@email.com",
   "password": "123456"
 }
 
 ###
 
 GET {{baseUrl}}/auth/me
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+###
+
+POST {{baseUrl}}/todos
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+{
+  "title": "Estudar NestJS",
+  "description": "Criar minha primeira tarefa autenticada"
+}
+
+###
+
+GET {{baseUrl}}/todos
 Authorization: Bearer {{login.response.body.$.accessToken}}
