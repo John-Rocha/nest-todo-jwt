@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import type { AuthenticatedUser } from '../auth/types/authenticated-user.type';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -24,8 +24,11 @@ export class TodosService {
         updatedAt: true,
         user: {
           select: {
+            id: true,
             name: true,
             email: true,
+            createdAt: true,
+            updatedAt: true,
           },
         },
       },
@@ -36,6 +39,7 @@ export class TodosService {
       todo,
     };
   }
+
   async findAll(currentUser: AuthenticatedUser) {
     const todos = await this.prisma.todo.findMany({
       where: {
@@ -58,6 +62,41 @@ export class TodosService {
     return {
       todos,
       total: todos.length,
+    };
+  }
+
+  async findOne(currentUser: AuthenticatedUser, todoId: string) {
+    const todo = await this.prisma.todo.findFirst({
+      where: {
+        id: todoId,
+        userId: currentUser.id,
+      },
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        completed: true,
+        userId: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+        },
+      },
+    });
+
+    if (!todo) {
+      throw new NotFoundException('ToDo não encontrado');
+    }
+
+    return {
+      todo,
     };
   }
 }
