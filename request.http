@@ -44,5 +44,51 @@ Authorization: Bearer {{login.response.body.$.accessToken}}
 
 ###
 
+GET {{baseUrl}}/todos?page=1&limit=10
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+###
+
+GET {{baseUrl}}/todos?completed=false
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+###
+
+GET {{baseUrl}}/todos?completed=true
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+###
+
+GET {{baseUrl}}/todos?search=nest
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+###
+
+GET {{baseUrl}}/todos?sortBy=createdAt&order=asc
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+###
+
+GET {{baseUrl}}/todos?sortBy=title&order=asc
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+###
+
 GET {{baseUrl}}/todos/{{createTodo.response.body.$.todo.id}}
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+###
+
+PATCH {{baseUrl}}/todos/123
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.$.accessToken}}
+
+{
+  "title": "Estudar PATCH no NestJS",
+  "description": "Atualizando uma tarefa existente",
+  "completed": true
+}
+
+###
+DELETE {{baseUrl}}/todos/1f4e96e6-1a98-4211-8902-6a57a10fb0b4
 Authorization: Bearer {{login.response.body.$.accessToken}}

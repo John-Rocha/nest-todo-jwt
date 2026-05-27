@@ -1,8 +1,20 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import type { AuthenticatedUser } from '../auth/types/authenticated-user.type';
 import { CreateTodoDto } from './dto/create-todo.dto';
+import { FindTodosQueryDto } from './dto/find-todos-query.dto';
+import { UpdateTodoDto } from './dto/update-todo.dto';
 import { TodosService } from './todos.service';
 
 @Controller('todos')
@@ -19,8 +31,11 @@ export class TodosController {
   }
 
   @Get()
-  async findAll(@CurrentUser() currentUser: AuthenticatedUser) {
-    return this.todosService.findAll(currentUser);
+  async findAll(
+    @CurrentUser() currentUser: AuthenticatedUser,
+    @Query() query: FindTodosQueryDto,
+  ) {
+    return this.todosService.findAll(currentUser, query);
   }
 
   @Get(':id')
@@ -29,5 +44,22 @@ export class TodosController {
     @Param('id') todoId: string,
   ) {
     return this.todosService.findOne(currentUser, todoId);
+  }
+
+  @Patch(':id')
+  async update(
+    @CurrentUser() currentUser: AuthenticatedUser,
+    @Param('id') todoId: string,
+    @Body() dto: UpdateTodoDto,
+  ) {
+    return this.todosService.update(currentUser, todoId, dto);
+  }
+
+  @Delete(':id')
+  async delete(
+    @CurrentUser() currentUser: AuthenticatedUser,
+    @Param('id') todoId: string,
+  ) {
+    return this.todosService.delete(currentUser, todoId);
   }
 }
