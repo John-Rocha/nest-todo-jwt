@@ -79,12 +79,12 @@ Authorization: Bearer {{login.response.body.$.accessToken}}
 
 ###
 
-PATCH {{baseUrl}}/todos/123
+PATCH {{baseUrl}}/todos/{{createTodo.response.body.$.todo.id}}
 Content-Type: application/json
 Authorization: Bearer {{login.response.body.$.accessToken}}
 
 {
-  "title": "Estudar PATCH no NestJS",
+  "title": "Estudar Flutter com NestJS",
   "description": "Atualizando uma tarefa existente",
   "completed": true
 }
